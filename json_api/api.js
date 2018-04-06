@@ -17,9 +17,14 @@ const server = http.createServer((req, res)=>{
     }
     if(pathname === '/api/unixtime'){
         return res.end(JSON.stringify({
-            unixtime: moment(query.iso).format('x')
+            unixtime: Number(moment(query.iso).format('x'))
         }))
     }
+    res.writeHead(404, {'Content-Type':'application/json'})
+    res.end(JSON.stringify({
+        success: false,
+        message: `${pathname} is not a valid endpoint`
+    }))
 })
 
 server.listen(port)
